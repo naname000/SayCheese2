@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SayCheese2
 {
-    public class Node : INode
+    public class Node : INode, IEquatable<INode>
     {
         private readonly BoardSnapshot snapshot;
         private readonly INode parentNode;
         private IList<INode> children = new List<INode>();
-
-        public override bool Equals(object obj)
-        {
-            return snapshot.Equals(obj);
-        }
 
         public override int GetHashCode()
         {
@@ -43,6 +39,11 @@ namespace SayCheese2
         public void AddChild(INode child)
         {
             this.children.Add(child);
+        }
+
+        public bool Equals(INode other)
+        {
+            return snapshot.Equals(other.GetSnapshot());
         }
     }
 

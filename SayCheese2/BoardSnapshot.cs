@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 namespace SayCheese2
 {
     using BitBoard = UInt32;
 
-    public class BoardSnapshot : Dictionary<CellPosition, CubeState>
+    public class BoardSnapshot : Dictionary<CellPosition, CubeState>, IEquatable<BoardSnapshot>
     {
         private BitBoard _BitBoard = default(BitBoard);
 
@@ -64,6 +63,21 @@ namespace SayCheese2
             BitBoard bitBoard = one << position.Line;
             bitBoard = bitBoard << 3 * position.Row;
             return bitBoard;
+        }
+
+        public int GetHashCode(BoardSnapshot obj)
+        {
+            var ret = obj.GetBitBoard();
+            return (int)ret;
+        }
+
+        public bool Equals(BoardSnapshot other)
+        {
+            if (Count != other.Count) return false;
+            foreach(var kv in other) {
+                if (this[kv.Key] != other[kv.Key]) return false;
+            }
+            return true;
         }
     }
 
