@@ -67,15 +67,23 @@ namespace SayCheese2
 
         public int GetHashCode(BoardSnapshot obj)
         {
-            var ret = obj.GetBitBoard();
-            return (int)ret;
+            //var ret = obj.GetBitBoard();
+            //return (int)ret;
+            return 1;
         }
 
         public bool Equals(BoardSnapshot other)
         {
-            if (Count != other.Count) return false;
-            foreach(var kv in other) {
-                if (this[kv.Key] != other[kv.Key]) return false;
+            foreach (var kv in other)
+            {
+                if (this.ContainsKey(kv.Key) == false)
+                {
+                    return false;
+                }
+                if (this[kv.Key] != other[kv.Key])
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -105,6 +113,7 @@ namespace SayCheese2
     {
         public int Line;
         public int Row;
+
 
         public CellPosition(int line, int row)
         {

@@ -37,10 +37,13 @@ namespace SayCheese2
             CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
             CellPosition position2 = new CellPosition(2, 1);
             CubeState state2 = CubeState.CUBE_STAND_BOTTOM;
+            CellPosition position3 = new CellPosition(0, 1);
+            CubeState state3 = CubeState.CUBE_STAND_BOTTOM;
             BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
             {
                 { position1, state1 },
                 { position2, state2 },
+                { position3, state3 },
             });
             Node node = new Node(snapshot);
             nodeList.Add(node);
@@ -49,6 +52,7 @@ namespace SayCheese2
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
+                DisplayNode(node, 0);
                 snapshot = node.GetSnapshot();
                 // 答えチェック
                 if (isCorrectSnapshot(snapshot)) throw new Exception("Found!");
@@ -82,12 +86,12 @@ namespace SayCheese2
                         // snapshot生成
                         // snapshotを複製
                         var childSnapshot = new BoardSnapshot(snapshot);
-                        // 子ノード生成
-                        var childNode = new Node(childSnapshot, node);
                         // 移動する前のコマを削除
                         childSnapshot.Remove(cube.Key);
                         // 移動したコマを追加
                         childSnapshot.Add(nextPosition, nextCubeState);
+                        // 子ノード生成
+                        var childNode = new Node(childSnapshot, node);
                         // 正誤判定を行う
                         if (isCorrectSnapshot(childSnapshot))
                         {
@@ -97,17 +101,34 @@ namespace SayCheese2
                         }
 
                         // 重複判定
-                        if (nodeList.Contains(childNode))
+                        if (isContainNode(nodeList, childNode))
                         {
-                            // 重複
                             continue;
                         }
+                        //if (nodeList.Contains(childNode))
+                        //{
+                        //    // 重複
+                        //    continue;
+                        //}
                         // 木構造に追加
+                        nodeList.Add(childNode);
                         node.AddChild(childNode);
                         queue.Enqueue(childNode);
                     }
                 }
             }
+        }
+
+        private static bool isContainNode(IList<Node> nodeList, Node childNode)
+        {
+            for (var i = 0; i < nodeList.Count; i++)
+            {
+                if (nodeList[i].Equals(childNode))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool isCorrectSnapshot(BoardSnapshot snapshot)
@@ -161,6 +182,15 @@ namespace SayCheese2
 
         private static void DisplayNodes(INode node, int count)
         {
+            DisplayNode(node, count);
+            if (node.GetParent() != null)
+            {
+                DisplayNodes(node.GetParent(), count + 1);
+            }
+        }
+
+        private static void DisplayNode(INode node, int count)
+        {
             Debug.WriteLine("-------" + count);
             String lineString = "";
             BoardSnapshot snapshot = node.GetSnapshot();
@@ -181,10 +211,6 @@ namespace SayCheese2
                 lineString = lineString + "|\n";
             }
             Debug.WriteLine(lineString);
-            if (node.GetParent() != null)
-            {
-                DisplayNodes(node.GetParent(), count+1);
-            }
         }
     }
 }
