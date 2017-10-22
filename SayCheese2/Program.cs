@@ -7,9 +7,10 @@ namespace SayCheese2
     class MainClass
     {
 
-        public static void test() {
-            
-            CellPosition positionA = new CellPosition(2,0);
+        public static void test()
+        {
+
+            CellPosition positionA = new CellPosition(2, 0);
             CubeState stateA = CubeState.CUBOID_Y_MINUS_X_MINUS;
             Debug.WriteLine("000000000");
             var ret = BoardSnapshot.CalcBitBoard(positionA, stateA);
@@ -24,7 +25,7 @@ namespace SayCheese2
             //});
             //if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
             //Debug.WriteLine();
-            
+
         }
 
         public static void Main()
@@ -59,11 +60,17 @@ namespace SayCheese2
                     {
                         // 移動可否判定を行う
                         var nextCubeState = Cube.Roll(cube.Value, direction);
+                        var nextCubeDirection = Cube.getCubeDirection(nextCubeState);
                         var nextPosition = RollCubeFor(nextCubeState, cube.Key, direction);
                         if (nextPosition.Line < 0 || 2 < nextPosition.Line || nextPosition.Row < 0 || 2 < nextPosition.Row)
                         {
                             // 範囲外
                             continue;
+                        }
+                        // 下に倒れている
+                        if (nextCubeDirection == CubeDirection.XMINUS)
+                        {
+
                         }
                         // 衝突判定を行う
                         if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
@@ -85,7 +92,7 @@ namespace SayCheese2
                         if (isCorrectSnapshot(childSnapshot))
                         {
                             // 答え
-                            DisplayNodes(childNode);
+                            DisplayNodes(childNode, 1);
                             return;
                         }
 
@@ -152,25 +159,31 @@ namespace SayCheese2
             return position;
         }
 
-        private static void DisplayNodes(INode node)
+        private static void DisplayNodes(INode node, int count)
         {
-            Debug.WriteLine("-------");
+            Debug.WriteLine("-------" + count);
             String lineString = "";
             BoardSnapshot snapshot = node.GetSnapshot();
-            for (var y = 0; y < 3; y++){
-                for (var x = 0; x < 3; x++){
+            for (var y = 0; y < 3; y++)
+            {
+                for (var x = 0; x < 3; x++)
+                {
                     CellPosition position = new CellPosition(x, y);
-                    if(snapshot.ContainsKey(position)) {
+                    if (snapshot.ContainsKey(position))
+                    {
                         lineString = lineString + "|" + snapshot[position] + "\t";
-                    }else{
+                    }
+                    else
+                    {
                         lineString = lineString + "|\t\t\t";
                     }
                 }
                 lineString = lineString + "|\n";
             }
             Debug.WriteLine(lineString);
-            if(node.GetParent() != null) {
-                DisplayNodes(node.GetParent());
+            if (node.GetParent() != null)
+            {
+                DisplayNodes(node.GetParent(), count+1);
             }
         }
     }
