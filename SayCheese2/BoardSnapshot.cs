@@ -42,13 +42,13 @@ namespace SayCheese2
                     bitBoard = bitBoard | bitBoard >> 1;
                     break;
                 case CubeDirection.XPLUS:
-                    bitBoard = bitBoard | bitBoard << 3;
+                    bitBoard = bitBoard | bitBoard << 1;
                     break;
                 case CubeDirection.YMINUS:
-                    bitBoard = bitBoard | bitBoard >> 3;
+                    bitBoard = bitBoard | bitBoard << 3;
                     break;
                 case CubeDirection.YPLUS:
-                    bitBoard = bitBoard | bitBoard << 3;
+                    bitBoard = bitBoard | bitBoard >> 3;
                     break;
                 case CubeDirection.STAND:
                     break;
@@ -57,7 +57,7 @@ namespace SayCheese2
         }
 
         // コマが配置されている位置から埋まっているマスを計算するメソッド
-        private static BitBoard CalcBitBoard(CellPosition position)
+        public static BitBoard CalcBitBoard(CellPosition position)
         {
             uint one = 1;
             BitBoard bitBoard = one << position.Line;

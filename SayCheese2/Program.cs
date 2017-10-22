@@ -6,8 +6,30 @@ namespace SayCheese2
 {
     class MainClass
     {
+
+        public static void test() {
+            
+            CellPosition positionA = new CellPosition(2,0);
+            CubeState stateA = CubeState.CUBOID_Y_MINUS_X_MINUS;
+            Debug.WriteLine("000000000");
+            var ret = BoardSnapshot.CalcBitBoard(positionA, stateA);
+            Debug.WriteLine(Convert.ToString(ret, 2));
+            //CubeState stateA = CubeState.CUBOID_Y_MINUS_X_MINUS;
+            //CellPosition positionB = new CellPosition(2, 2);
+            //CubeState stateB = CubeState.CUBOID_X_MINUS_UPPER;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { positionA, stateA },
+            //    { positionB, stateB },
+            //});
+            //if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
+            //Debug.WriteLine();
+            
+        }
+
         public static void Main()
         {
+            //test();return;
             // 重複検索がメンドイのでリストに突っ込む
             IList<Node> nodeList = new List<Node>();
             CellPosition position1 = new CellPosition(1, 1);
@@ -119,12 +141,12 @@ namespace SayCheese2
                     if (cubeDirection == CubeDirection.XPLUS) position.Line++;
                     break;
                 case RollDirection.YMINUS:
-                    position.Row--;
-                    if (cubeDirection == CubeDirection.YMINUS) position.Row--;
+                    position.Row++;
+                    if (cubeDirection == CubeDirection.YMINUS) position.Row++;
                     break;
                 case RollDirection.YPLUS:
-                    position.Row++;
-                    if (cubeDirection == CubeDirection.YPLUS) position.Row++;
+                    position.Row--;
+                    if (cubeDirection == CubeDirection.YPLUS) position.Row--;
                     break;
             }
             return position;
