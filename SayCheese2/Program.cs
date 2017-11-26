@@ -35,27 +35,30 @@ namespace SayCheese2
             IList<Node> nodeList = new List<Node>();
             CellPosition position1 = new CellPosition(1, 1);
             CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
-            CellPosition position2 = new CellPosition(2, 1);
+            CellPosition position2 = new CellPosition(0, 0);
             CubeState state2 = CubeState.CUBE_STAND_BOTTOM;
             CellPosition position3 = new CellPosition(0, 1);
             CubeState state3 = CubeState.CUBE_STAND_BOTTOM;
+            CellPosition position4 = new CellPosition(1, 0);
+            CubeState state4 = CubeState.CUBE_STAND_BOTTOM;
             BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
             {
                 { position1, state1 },
                 { position2, state2 },
                 { position3, state3 },
+                { position4, state4 },
             });
             Node node = new Node(snapshot);
             nodeList.Add(node);
             Queue<Node> queue = new Queue<Node>();
             queue.Enqueue(node);
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
-                DisplayNode(node, 0);
+                //DisplayNode(node, 0);
                 snapshot = node.GetSnapshot();
-                // 答えチェック
-                if (isCorrectSnapshot(snapshot)) throw new Exception("Found!");
                 // 各コマの次の一手を生成する
                 foreach (var cube in snapshot)
                 {
@@ -80,6 +83,7 @@ namespace SayCheese2
                         if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
                         {
                             // 衝突
+                            //Debug.WriteLine("Hoge");Debug.Flush();
                             continue;
                         }
                         // 衝突していなければ
@@ -92,6 +96,12 @@ namespace SayCheese2
                         childSnapshot.Add(nextPosition, nextCubeState);
                         // 子ノード生成
                         var childNode = new Node(childSnapshot, node);
+                        // 重複判定
+                        if (isContainNode(nodeList, childNode))
+                        {
+                            //Debug.WriteLine("Conflict!: " + sw.Elapsed); Debug.Flush();
+                            continue;
+                        }
                         // 正誤判定を行う
                         if (isCorrectSnapshot(childSnapshot))
                         {
@@ -100,11 +110,7 @@ namespace SayCheese2
                             return;
                         }
 
-                        // 重複判定
-                        if (isContainNode(nodeList, childNode))
-                        {
-                            continue;
-                        }
+
                         //if (nodeList.Contains(childNode))
                         //{
                         //    // 重複
@@ -211,6 +217,7 @@ namespace SayCheese2
                 lineString = lineString + "|\n";
             }
             Debug.WriteLine(lineString);
+            Debug.Flush();
         }
     }
 }

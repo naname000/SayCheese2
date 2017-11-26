@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace SayCheese2
 {
-    using BitBoard = UInt32;
+    using BitBoard = Int32;
 
     public class BoardSnapshot : Dictionary<CellPosition, CubeState>, IEquatable<BoardSnapshot>
     {
@@ -59,7 +59,7 @@ namespace SayCheese2
         // コマが配置されている位置から埋まっているマスを計算するメソッド
         public static BitBoard CalcBitBoard(CellPosition position)
         {
-            uint one = 1;
+            int one = 1;
             BitBoard bitBoard = one << position.Line;
             bitBoard = bitBoard << 3 * position.Row;
             return bitBoard;
@@ -67,9 +67,8 @@ namespace SayCheese2
 
         public int GetHashCode(BoardSnapshot obj)
         {
-            //var ret = obj.GetBitBoard();
-            //return (int)ret;
-            return 1;
+            var ret = obj.GetBitBoard();
+            return ret;
         }
 
         public bool Equals(BoardSnapshot other)
