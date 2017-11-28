@@ -9,7 +9,8 @@ namespace SayCheese2
 
         public static void test()
         {
-
+            //int bitBoard = BoardSnapshot.CalcBitBoard(pos, state);
+            //Debug.WriteLine(bitBoard);return;
             CellPosition positionA = new CellPosition(2, 0);
             CubeState stateA = CubeState.CUBOID_Y_MINUS_X_MINUS;
             Debug.WriteLine("000000000");
@@ -30,7 +31,6 @@ namespace SayCheese2
 
         public static void Main()
         {
-            //test();return;
             // 重複検索がメンドイのでリストに突っ込む
             IList<Node> nodeList = new List<Node>();
             CellPosition position1 = new CellPosition(1, 1);
@@ -74,10 +74,10 @@ namespace SayCheese2
                             // 範囲外
                             continue;
                         }
-                        // 下に倒れている
-                        if (nextCubeDirection == CubeDirection.XMINUS)
+                        // 倒れている(直方体)
+                        if (nextCubeDirection != CubeDirection.STAND)
                         {
-
+                            ////////ココ//////////////
                         }
                         // 衝突判定を行う
                         if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
