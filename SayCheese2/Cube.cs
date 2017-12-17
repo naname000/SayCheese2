@@ -92,52 +92,52 @@ namespace SayCheese2
                     switch (d)
                     {
                         case RollDirection.XPLUS:
-                            return CubeState.CUBOID_X_PLUS_BOTTOM;
+                            return CubeState.CUBOID_X_MINUS_BOTTOM;
                         case RollDirection.XMINUS:
-                            return CubeState.CUBOID_X_MINUS_UPPER;
+                            return CubeState.CUBOID_X_PLUS_UPPER;
                         case RollDirection.YPLUS:
-                            return CubeState.CUBOID_Y_PLUS_X_PLUS;
-                        case RollDirection.YMINUS:
                             return CubeState.CUBOID_Y_MINUS_X_PLUS;
+                        case RollDirection.YMINUS:
+                            return CubeState.CUBOID_Y_PLUS_X_PLUS;
                     }
                     break;
                 case CubeState.CUBOID_STAND_X_MINUS:
                     switch (d)
                     {
                         case RollDirection.XPLUS:
-                            return CubeState.CUBOID_X_PLUS_UPPER;
+                            return CubeState.CUBOID_X_MINUS_UPPER;
                         case RollDirection.XMINUS:
-                            return CubeState.CUBOID_X_MINUS_BOTTOM;
+                            return CubeState.CUBOID_X_PLUS_BOTTOM;
                         case RollDirection.YPLUS:
-                            return CubeState.CUBOID_Y_PLUS_X_MINUS;
-                        case RollDirection.YMINUS:
                             return CubeState.CUBOID_Y_MINUS_X_MINUS;
+                        case RollDirection.YMINUS:
+                            return CubeState.CUBOID_Y_PLUS_X_MINUS;
                     }
                     break;
                 case CubeState.CUBOID_STAND_Y_PLUS:
                     switch (d)
                     {
                         case RollDirection.XPLUS:
-                            return CubeState.CUBOID_X_PLUS_Y_PLUS;
-                        case RollDirection.XMINUS:
                             return CubeState.CUBOID_X_MINUS_Y_PLUS;
+                        case RollDirection.XMINUS:
+                            return CubeState.CUBOID_X_PLUS_Y_PLUS;
                         case RollDirection.YPLUS:
-                            return CubeState.CUBOID_Y_PLUS_BOTTOM;
+                            return CubeState.CUBOID_Y_MINUS_BOTTOM;
                         case RollDirection.YMINUS:
-                            return CubeState.CUBOID_Y_MINUS_UPPER;
+                            return CubeState.CUBOID_Y_PLUS_UPPER;
                     }
                     break;
                 case CubeState.CUBOID_STAND_Y_MINUS:
                     switch (d)
                     {
                         case RollDirection.XPLUS:
-                            return CubeState.CUBOID_X_PLUS_Y_MINUS;
-                        case RollDirection.XMINUS:
                             return CubeState.CUBOID_X_MINUS_Y_MINUS;
+                        case RollDirection.XMINUS:
+                            return CubeState.CUBOID_X_PLUS_Y_MINUS;
                         case RollDirection.YPLUS:
-                            return CubeState.CUBOID_Y_PLUS_UPPER;
+                            return CubeState.CUBOID_Y_MINUS_UPPER;
                         case RollDirection.YMINUS:
-                            return CubeState.CUBOID_Y_MINUS_BOTTOM;
+                            return CubeState.CUBOID_Y_PLUS_BOTTOM;
                     }
                     break;
                 case CubeState.CUBOID_X_PLUS_UPPER:
@@ -377,6 +377,16 @@ namespace SayCheese2
                 state == CubeState.CUBOID_Y_PLUS_X_MINUS) direction = CubeDirection.YPLUS;
 
             return direction;
+        }
+
+        public static bool isCube(CubeState state) {
+            if (state == CubeState.CUBE_STAND_BOTTOM ||
+               state == CubeState.CUBE_STAND_UPPER ||
+               state == CubeState.CUBE_STAND_X_MINUS ||
+               state == CubeState.CUBE_STAND_X_PLUS ||
+               state == CubeState.CUBE_STAND_Y_MINUS ||
+               state == CubeState.CUBE_STAND_Y_PLUS) return true;
+            return false;
         }
 
 

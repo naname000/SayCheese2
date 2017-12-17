@@ -33,21 +33,113 @@ namespace SayCheese2
         {
             // 重複検索がメンドイのでリストに突っ込む
             IList<Node> nodeList = new List<Node>();
-            CellPosition position1 = new CellPosition(1, 1);
-            CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
-            CellPosition position2 = new CellPosition(0, 0);
+            //TEST
+            //CellPosition position1 = new CellPosition(0, 0);
+            //CubeState state1 = CubeState.CUBOID_STAND_Y_MINUS;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //});
+
+            // Question:4
+            //CellPosition position1 = new CellPosition(1, 0);
+            //CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
+            //CellPosition position2 = new CellPosition(1, 2);
+            //CubeState state2 = CubeState.CUBOID_X_MINUS_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //});
+
+            // Question:6
+            //CellPosition position1 = new CellPosition(1, 0);
+            //CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
+            //CellPosition position2 = new CellPosition(2, 0);
+            //CubeState state2 = CubeState.CUBOID_Y_MINUS_BOTTOM;
+            //CellPosition position3 = new CellPosition(2, 2);
+            //CubeState state3 = CubeState.CUBOID_X_MINUS_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //    { position3, state3 },
+            //});
+
+            // Question:7
+            //CellPosition position1 = new CellPosition(1, 1);
+            //CubeState state1 = CubeState.CUBOID_X_MINUS_BOTTOM;
+            //CellPosition position2 = new CellPosition(1, 2);
+            //CubeState state2 = CubeState.CUBE_STAND_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //});
+
+            // Question:13
+            //CellPosition position1 = new CellPosition(1, 0);
+            //CubeState state1 = CubeState.CUBOID_X_PLUS_BOTTOM;
+            //CellPosition position2 = new CellPosition(2, 1);
+            //CubeState state2 = CubeState.CUBE_STAND_BOTTOM;;
+            //CellPosition position3 = new CellPosition(1, 2);
+            //CubeState state3 = CubeState.CUBOID_X_PLUS_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //    { position3, state3 },
+            //});
+
+            // Question:16
+            //CellPosition position1 = new CellPosition(1, 0);
+            //CubeState state1 = CubeState.CUBOID_X_PLUS_BOTTOM;
+            //CellPosition position2 = new CellPosition(0, 2);
+            //CubeState state2 = CubeState.CUBOID_Y_PLUS_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //});
+
+            // Question:31
+            //CellPosition position1 = new CellPosition(1, 0);
+            //CubeState state1 = CubeState.CUBE_STAND_BOTTOM;
+            //CellPosition position2 = new CellPosition(0, 1);
+            //CubeState state2 = CubeState.CUBE_STAND_BOTTOM;
+            //CellPosition position3 = new CellPosition(2, 1);
+            //CubeState state3 = CubeState.CUBOID_X_MINUS_BOTTOM;
+            //CellPosition position4 = new CellPosition(1, 2);
+            //CubeState state4 = CubeState.CUBE_STAND_BOTTOM;
+            //BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
+            //{
+            //    { position1, state1 },
+            //    { position2, state2 },
+            //    { position3, state3 },
+            //    { position4, state4 },
+            //});
+
+            // Question:50
+            CellPosition position1 = new CellPosition(0, 1);
+            CubeState state1 = CubeState.CUBOID_Y_PLUS_BOTTOM;
+            CellPosition position2 = new CellPosition(1, 0);
             CubeState state2 = CubeState.CUBE_STAND_BOTTOM;
-            CellPosition position3 = new CellPosition(0, 1);
-            CubeState state3 = CubeState.CUBE_STAND_BOTTOM;
-            CellPosition position4 = new CellPosition(1, 0);
+            CellPosition position3 = new CellPosition(2, 1);
+            CubeState state3 = CubeState.CUBOID_Y_PLUS_BOTTOM;
+            CellPosition position4 = new CellPosition(1, 1);
             CubeState state4 = CubeState.CUBE_STAND_BOTTOM;
+            CellPosition position5 = new CellPosition(1, 2);
+            CubeState state5 = CubeState.CUBE_STAND_BOTTOM;
             BoardSnapshot snapshot = new BoardSnapshot(new Dictionary<CellPosition, CubeState>()
             {
                 { position1, state1 },
                 { position2, state2 },
                 { position3, state3 },
                 { position4, state4 },
+                { position5, state5 },
             });
+
+
             Node node = new Node(snapshot);
             nodeList.Add(node);
             Queue<Node> queue = new Queue<Node>();
@@ -62,28 +154,31 @@ namespace SayCheese2
                 // 各コマの次の一手を生成する
                 foreach (var cube in snapshot)
                 {
+                    Debug.WriteLine(cube.Key.X + ":" + cube.Key.Y + cube.Value +"を動かします。");
                     // 上下左右に動かしてみる
                     foreach (RollDirection direction in Enum.GetValues(typeof(RollDirection)))
                     {
+                        Debug.WriteLine(direction.ToString() + "に動かします。");
                         // 移動可否判定を行う
                         var nextCubeState = Cube.Roll(cube.Value, direction);
                         var nextCubeDirection = Cube.getCubeDirection(nextCubeState);
-                        var nextPosition = RollCubeFor(nextCubeState, cube.Key, direction);
-                        if (nextPosition.Line < 0 || 2 < nextPosition.Line || nextPosition.Row < 0 || 2 < nextPosition.Row)
+                        //var nextPosition = RollCubeFor(nextCubeState, cube.Key, direction);
+                        var nextPosition = RollCubeFor(cube.Value, cube.Key, direction);
+                        if (nextPosition.X < 0 || 2 < nextPosition.X || nextPosition.Y < 0 || 2 < nextPosition.Y)
                         {
                             // 範囲外
+                            Debug.WriteLine("範囲外に移動しました。" + nextPosition.X + ":" + nextPosition.Y); Debug.Flush();
                             continue;
-                        }
-                        // 倒れている(直方体)
-                        if (nextCubeDirection != CubeDirection.STAND)
-                        {
-                            ////////ココ//////////////
                         }
                         // 衝突判定を行う
                         if (0 < (snapshot.GetBitBoard() & BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState)))
                         {
                             // 衝突
-                            //Debug.WriteLine("Hoge");Debug.Flush();
+                            PrintBinaryDigit(snapshot.GetBitBoard());
+                            PrintBinaryDigit(BoardSnapshot.CalcBitBoard(nextPosition, nextCubeState));
+                            Debug.WriteLine(nextPosition.X +":"+nextPosition.Y);
+                            Debug.WriteLine(nextCubeState);
+                            Debug.WriteLine("コマ同士が衝突しました。"); Debug.Flush();
                             continue;
                         }
                         // 衝突していなければ
@@ -99,23 +194,18 @@ namespace SayCheese2
                         // 重複判定
                         if (isContainNode(nodeList, childNode))
                         {
-                            //Debug.WriteLine("Conflict!: " + sw.Elapsed); Debug.Flush();
+                            Debug.WriteLine("探索済みの手です。"); Debug.Flush();
                             continue;
                         }
                         // 正誤判定を行う
                         if (isCorrectSnapshot(childSnapshot))
                         {
                             // 答え
+                            Debug.WriteLine("答えが見つかりました。"); Debug.Flush();
                             DisplayNodes(childNode, 1);
+                            Console.ReadLine();
                             return;
                         }
-
-
-                        //if (nodeList.Contains(childNode))
-                        //{
-                        //    // 重複
-                        //    continue;
-                        //}
                         // 木構造に追加
                         nodeList.Add(childNode);
                         node.AddChild(childNode);
@@ -123,6 +213,14 @@ namespace SayCheese2
                     }
                 }
             }
+            Debug.WriteLine("答えが見つかりませんでした。");
+        }
+
+        private static void PrintBinaryDigit(int i)
+        {
+            string b = Convert.ToString(i, 2);
+            int n = Convert.ToInt32(b);
+            Debug.WriteLine("0x{0:x2} = {1:D9}", i, n);
         }
 
         private static bool isContainNode(IList<Node> nodeList, Node childNode)
@@ -167,20 +265,20 @@ namespace SayCheese2
             switch (rollDirection)
             {
                 case RollDirection.XMINUS:
-                    position.Line--;
-                    if (cubeDirection == CubeDirection.XMINUS) position.Line--;
+                    position.X--;
+                    if (cubeDirection == CubeDirection.XMINUS || cubeDirection == CubeDirection.STAND && Cube.isCube(state) == false) position.X--;
                     break;
                 case RollDirection.XPLUS:
-                    position.Line++;
-                    if (cubeDirection == CubeDirection.XPLUS) position.Line++;
+                    position.X++;
+                    if (cubeDirection == CubeDirection.XPLUS || cubeDirection == CubeDirection.STAND && Cube.isCube(state) == false) position.X++;
                     break;
                 case RollDirection.YMINUS:
-                    position.Row++;
-                    if (cubeDirection == CubeDirection.YMINUS) position.Row++;
+                    position.Y++;
+                    if (cubeDirection == CubeDirection.YMINUS || cubeDirection == CubeDirection.STAND && Cube.isCube(state) == false) position.Y++;
                     break;
                 case RollDirection.YPLUS:
-                    position.Row--;
-                    if (cubeDirection == CubeDirection.YPLUS) position.Row--;
+                    position.Y--;
+                    if (cubeDirection == CubeDirection.YPLUS || cubeDirection == CubeDirection.STAND && Cube.isCube(state) == false) position.Y--;
                     break;
             }
             return position;
@@ -197,7 +295,7 @@ namespace SayCheese2
 
         private static void DisplayNode(INode node, int count)
         {
-            Debug.WriteLine("-------" + count);
+            Console.WriteLine("-------" + count);
             String lineString = "";
             BoardSnapshot snapshot = node.GetSnapshot();
             for (var y = 0; y < 3; y++)
@@ -216,8 +314,8 @@ namespace SayCheese2
                 }
                 lineString = lineString + "|\n";
             }
-            Debug.WriteLine(lineString);
-            Debug.Flush();
+            Console.WriteLine(lineString);
+            //Console.Flush();
         }
     }
 }

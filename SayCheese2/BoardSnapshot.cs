@@ -35,7 +35,7 @@ namespace SayCheese2
         public static BitBoard CalcBitBoard(CellPosition position, CubeState state)
         {
             CubeDirection direction = Cube.getCubeDirection(state);
-            BitBoard bitBoard = CalcBitBoard(position);
+            BitBoard bitBoard = CalcBitBoardByPosition(position);
             switch (direction)
             {
                 case CubeDirection.XMINUS:
@@ -57,11 +57,11 @@ namespace SayCheese2
         }
 
         // コマが配置されている位置から埋まっているマスを計算するメソッド
-        public static BitBoard CalcBitBoard(CellPosition position)
+        public static BitBoard CalcBitBoardByPosition(CellPosition position)
         {
             int one = 1;
-            BitBoard bitBoard = one << position.Line;
-            bitBoard = bitBoard << 3 * position.Row;
+            BitBoard bitBoard = one << position.X;
+            bitBoard = bitBoard << 3 * position.Y;
             return bitBoard;
         }
 
@@ -110,13 +110,13 @@ namespace SayCheese2
 
     public struct CellPosition
     {
-        public int Line;
-        public int Row;
+        public int X;
+        public int Y;
 
 
         public CellPosition(int line, int row)
         {
-            Line = line; Row = row;
+            X = line; Y = row;
         }
     }
 
